@@ -1,0 +1,24 @@
+version: "2"
+services:
+  eureka:
+    image: eureka
+    ports:
+      - "8761:8761"
+    depends_on:
+      - "config-service"
+    links:
+      - "config-service:config-service"
+  config-service:
+    image: config-service
+    ports:
+      - "8888:8888"
+  user-service:
+    image: "user-service"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - "config-service"
+      - "eureka"
+    links:
+      - "eureka:eureka"
+      - "config-service:config-service"
