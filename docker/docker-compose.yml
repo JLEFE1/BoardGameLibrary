@@ -1,24 +1,19 @@
 version: "2"
 services:
-  eureka:
-    image: eureka
+  discovery:
+    image: discovery-microservice
     ports:
       - "8761:8761"
-    depends_on:
-      - "config-service"
-    links:
-      - "config-service:config-service"
-  config-service:
-    image: config-service
+  configserver:
+    image: config-microservice
     ports:
       - "8888:8888"
-  user-service:
-    image: "user-service"
-    ports:
-      - "8000:8000"
-    depends_on:
-      - "config-service"
-      - "eureka"
     links:
-      - "eureka:eureka"
-      - "config-service:config-service"
+      - discovery
+  user:
+    image: users-microservice
+    ports:
+      - "9000:9000"
+    links:
+      - discovery
+      - configserver
