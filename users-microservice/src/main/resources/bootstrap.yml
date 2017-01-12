@@ -4,5 +4,6 @@ spring:
   cloud:
     config:
       uri: http://configserver:8888
+      failFast: true
 encrypt:
   failOnError: false
